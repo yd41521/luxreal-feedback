@@ -9,7 +9,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/"
-        className="mt-6 inline-flex h-9 items-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white hover:bg-brand-700"
+        className="mt-6 inline-flex h-9 items-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg hover:bg-cta-hover"
       >
         返回列表
       </Link>

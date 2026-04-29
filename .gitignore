@@ -10,3 +10,6 @@ build/
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+# 本地视觉对比临时截图
+debug-*.png

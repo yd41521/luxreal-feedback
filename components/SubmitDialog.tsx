@@ -230,10 +230,10 @@ export function SubmitDialog({
               onClick={handleSubmit}
               title={blockReason ?? undefined}
               className={cn(
-                "h-9 rounded-lg px-4 text-sm font-medium text-white transition",
+                "h-9 rounded-lg px-4 text-sm font-medium text-cta-fg transition",
                 canSubmit
-                  ? "bg-brand-600 hover:bg-brand-700"
-                  : "bg-brand-300 cursor-not-allowed"
+                  ? "bg-cta hover:bg-cta-hover"
+                  : "bg-cta-muted cursor-not-allowed"
               )}
             >
               {submitting

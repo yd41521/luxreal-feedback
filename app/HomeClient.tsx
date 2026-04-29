@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { Header } from "@/components/Header";
@@ -57,7 +58,22 @@ export default function HomeClient() {
   return (
     <>
       <Header current="home" onSubmitClick={() => setOpenSubmit(true)} />
-      <Hero onSearch={handleSearch} />
+      <Hero
+        onSearch={handleSearch}
+        asideSlot={
+          <div className="absolute inset-0">
+            <Image
+              src="/assets/hero-portrait.png"
+              alt=""
+              aria-hidden
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="select-none object-cover object-[center_70%]"
+            />
+          </div>
+        }
+      />
 
       <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
         <Filters
@@ -120,7 +136,7 @@ function EmptyState({ onSubmitClick }: { onSubmitClick: () => void }) {
       </p>
       <button
         onClick={onSubmitClick}
-        className="mt-2 inline-flex h-9 items-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white hover:bg-brand-700"
+        className="mt-2 inline-flex h-9 items-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg hover:bg-cta-hover"
       >
         提交一个想法
       </button>

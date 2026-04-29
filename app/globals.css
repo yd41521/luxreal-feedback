@@ -2,8 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * 设计 Token 实际值。
+ * 调色规则：
+ *   1. 所有颜色写成空格分隔 RGB（如 "17 17 17"），以兼容 tailwind 的 rgb(var(--x) / <alpha-value>) 写法。
+ *   2. 改色只动这里，组件层不要硬编码颜色。
+ */
 :root {
   color-scheme: light;
+
+  /* CTA：纯黑系主按钮 */
+  --cta: 17 17 17;
+  --cta-hover: 0 0 0;
+  --cta-fg: 255 255 255;
+  --cta-muted: 148 163 184;
+
+  /* Surface：中性面 */
+  --surface: 255 255 255;
+  --surface-subtle: 248 250 252;
+  --surface-muted: 241 245 249;
+  --surface-elevated: 255 255 255;
+  --surface-inverse: 15 23 42;
+
+  /* Ink：文字层级 */
+  --ink: 15 23 42;
+  --ink-muted: 71 85 105;
+  --ink-subtle: 100 116 139;
+  --ink-faint: 148 163 184;
+  --ink-inverse: 255 255 255;
+
+  /* Accent：装饰性银紫光晕 */
+  --accent-silver: 203 213 225;
+  --accent-violet: 196 181 253;
+  --accent-glow: 233 213 255;
 }
 
 html,
@@ -12,8 +43,8 @@ body {
 }
 
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: rgb(var(--surface-subtle));
+  color: rgb(var(--ink));
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -24,7 +55,7 @@ body {
     height: 6px;
   }
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: #cbd5e1;
+    background-color: rgb(var(--accent-silver));
     border-radius: 3px;
   }
 }

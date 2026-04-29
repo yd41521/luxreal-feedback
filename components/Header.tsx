@@ -40,7 +40,7 @@ export function Header({
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-600 text-sm font-bold text-white">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cta text-sm font-bold text-cta-fg">
             L
           </span>
           <span className="hidden text-base font-semibold text-slate-900 sm:inline">
@@ -74,14 +74,14 @@ export function Header({
         {submitHref ? (
           <Link
             href={submitHref}
-            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700"
+            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover"
           >
             提交想法
           </Link>
         ) : (
           <button
             onClick={onSubmitClick}
-            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-brand-600 px-4 text-sm font-medium text-white shadow-sm transition hover:bg-brand-700"
+            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover"
           >
             提交想法
           </button>
