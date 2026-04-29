@@ -290,9 +290,16 @@ export async function getItem(id: string): Promise<FeedbackItem | null> {
 }
 
 /**
- * 已上线成就墙：返回 status=已完成 && visible=true && completed_at 非空的项目。
- * 按 completed_at desc 排序。同时返回统计数据用于顶部展示。
+ * 已上线成就墙：返回 status=已完成 && visible=true 的项目。
+ * 按 effective 时间 desc 排序：completed_at 为空时用 updated_at 兜底。
+ * 这样运营改 status=已完成 而忘记填 completed_at 也能正常上墙。
  */
+function effectiveDeliveredAt(it: FeedbackItem): number {
+  return typeof it.completedAt === "number" && it.completedAt > 0
+    ? it.completedAt
+    : it.updatedAt || it.createdAt;
+}
+
 export async function listDeliveredItems(query: {
   page?: number;
   pageSize?: number;
@@ -308,19 +315,14 @@ export async function listDeliveredItems(query: {
 
   const all = await fetchAllItemsRaw();
   const delivered = all
-    .filter(
-      (it) =>
-        it.visible &&
-        it.status === "已完成" &&
-        typeof it.completedAt === "number"
-    )
-    .sort((a, b) => (b.completedAt ?? 0) - (a.completedAt ?? 0));
+    .filter((it) => it.visible && it.status === "已完成")
+    .sort((a, b) => effectiveDeliveredAt(b) - effectiveDeliveredAt(a));
 
   const stats: DeliveredStats = {
     total: delivered.length,
     totalVotes: delivered.reduce((sum, it) => sum + (it.voteCount || 0), 0),
     lastDeliveredAt:
-      delivered.length > 0 ? delivered[0].completedAt ?? null : null,
+      delivered.length > 0 ? effectiveDeliveredAt(delivered[0]) : null,
   };
 
   const offset = (page - 1) * pageSize;
@@ -336,18 +338,13 @@ export async function listDeliveredItems(query: {
 /** 仅统计已交付想法数量与总票数，用于 Header 徽章等轻量场景。 */
 export async function getDeliveredStats(): Promise<DeliveredStats> {
   const all = await fetchAllItemsRaw();
-  const delivered = all.filter(
-    (it) =>
-      it.visible &&
-      it.status === "已完成" &&
-      typeof it.completedAt === "number"
-  );
-  delivered.sort((a, b) => (b.completedAt ?? 0) - (a.completedAt ?? 0));
+  const delivered = all.filter((it) => it.visible && it.status === "已完成");
+  delivered.sort((a, b) => effectiveDeliveredAt(b) - effectiveDeliveredAt(a));
   return {
     total: delivered.length,
     totalVotes: delivered.reduce((sum, it) => sum + (it.voteCount || 0), 0),
     lastDeliveredAt:
-      delivered.length > 0 ? delivered[0].completedAt ?? null : null,
+      delivered.length > 0 ? effectiveDeliveredAt(delivered[0]) : null,
   };
 }
 
