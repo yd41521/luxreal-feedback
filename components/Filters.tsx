@@ -5,6 +5,16 @@ import { cn } from "@/lib/utils";
 
 export type SortKey = "trending" | "latest";
 
+/**
+ * 极简筛选条：左侧 Trending / Latest 用纯文字 + 图标 + 竖线分隔，
+ * 右侧 类别 / 状态 用裸下拉（无边框），保持页面"轻"的呼吸感。
+ *
+ * 颜色全部 token 化：
+ *   - active sort     → accent-violet（与品牌色一致的高亮）
+ *   - inactive sort   → ink-faint，hover 转 ink-muted
+ *   - select label    → ink-faint（"类别 / 状态" 副文）
+ *   - select value    → ink + font-medium（"全部 / 已通过 / ..."）
+ */
 export function Filters({
   sort,
   category,
@@ -21,16 +31,26 @@ export function Filters({
   onStatus: (s?: Status) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 py-4">
-      <div className="flex items-center gap-1 rounded-xl border border-slate-100 bg-white p-1 shadow-card">
-        <SortPill active={sort === "trending"} onClick={() => onSort("trending")}>
+    <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4 text-sm">
+      <div className="flex items-center gap-3">
+        <SortLink
+          active={sort === "trending"}
+          onClick={() => onSort("trending")}
+        >
           <FlameIcon /> Trending（热门）
-        </SortPill>
-        <SortPill active={sort === "latest"} onClick={() => onSort("latest")}>
+        </SortLink>
+        <span aria-hidden className="text-ink-faint/50">
+          |
+        </span>
+        <SortLink
+          active={sort === "latest"}
+          onClick={() => onSort("latest")}
+        >
           <ClockIcon /> Latest（最新）
-        </SortPill>
+        </SortLink>
       </div>
-      <div className="flex items-center gap-2">
+
+      <div className="flex items-center gap-5">
         <Select
           label="类别"
           value={category}
@@ -48,7 +68,7 @@ export function Filters({
   );
 }
 
-function SortPill({
+function SortLink({
   active,
   onClick,
   children,
@@ -59,12 +79,15 @@ function SortPill({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm transition",
+        "inline-flex items-center gap-1.5 transition-colors",
+        // active：深色 + medium 字重压住整行；icon 仍跟随 text color
+        // inactive：浅灰，hover 转中灰
         active
-          ? "bg-brand-50 text-brand-700 shadow-sm"
-          : "text-slate-500 hover:text-slate-700"
+          ? "font-medium text-ink [&>svg]:text-accent-violet"
+          : "text-ink-faint hover:text-ink-muted"
       )}
     >
       {children}
@@ -84,23 +107,23 @@ function Select({
   options: readonly string[];
 }) {
   return (
-    <label className="relative inline-flex items-center">
-      <span className="pointer-events-none absolute left-3 text-xs text-slate-400">
-        {label}
+    <label className="inline-flex items-center gap-1.5">
+      <span className="text-ink-faint">{label}</span>
+      <span className="relative inline-flex items-center">
+        <select
+          value={value || ""}
+          onChange={(e) => onChange(e.target.value || undefined)}
+          className="cursor-pointer appearance-none bg-transparent pr-5 font-medium text-ink outline-none transition-colors hover:text-accent-violet"
+        >
+          <option value="">全部</option>
+          {options.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+        <ChevronIcon className="pointer-events-none absolute right-0 h-3.5 w-3.5 text-ink-faint" />
       </span>
-      <select
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value || undefined)}
-        className="h-9 appearance-none rounded-lg border border-slate-100 bg-white pl-10 pr-7 text-sm shadow-card outline-none transition hover:border-slate-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
-      >
-        <option value="">全部</option>
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-      <ChevronIcon className="pointer-events-none absolute right-2 h-3.5 w-3.5 text-slate-400" />
     </label>
   );
 }
