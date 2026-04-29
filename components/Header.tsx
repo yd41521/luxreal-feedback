@@ -36,7 +36,7 @@ export function Header({
   return (
     <header
       data-embed-hide="true"
-      className="sticky top-0 z-30 border-b border-slate-100 bg-white/80 backdrop-blur"
+      className="sticky top-0 z-30"
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
