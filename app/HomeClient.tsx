@@ -60,16 +60,16 @@ export default function HomeClient() {
       <Header current="home" onSubmitClick={() => setOpenSubmit(true)} />
       <Hero
         onSearch={handleSearch}
-        asideSlot={
+        backgroundSlot={
           <div className="absolute inset-0">
             <Image
-              src="/assets/hero-portrait.png"
+              src="/assets/hero-banner.png"
               alt=""
               aria-hidden
               fill
               priority
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="select-none object-cover object-[center_70%]"
+              sizes="100vw"
+              className="select-none object-cover object-center"
             />
           </div>
         }

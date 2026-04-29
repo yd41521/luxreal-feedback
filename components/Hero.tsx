@@ -66,11 +66,11 @@ export function Hero({
           <div className="relative h-72 sm:h-96 lg:h-auto">{asideSlot}</div>
         </div>
       ) : (
-        <div className="relative mx-auto flex max-w-3xl flex-col items-center px-4 py-14 text-center sm:py-20">
-          <h1 className="text-3xl font-bold leading-tight text-ink sm:text-4xl">
+        <div className="relative mx-auto flex min-h-[380px] max-w-3xl flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[440px] sm:py-20">
+          <h1 className="text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[44px]">
             {title}
           </h1>
-          <p className="mt-3 text-sm text-ink-subtle sm:text-base">
+          <p className="mt-3 text-sm text-ink-subtle sm:text-base lg:text-lg">
             {subtitle}
           </p>
           <div className="mt-7 w-full max-w-xl">
