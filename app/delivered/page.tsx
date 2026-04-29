@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { listDeliveredItems } from "@/lib/feishu";
 import { formatRelativeTime } from "@/lib/utils";
+import { BreathingHalo } from "@/components/BreathingHalo";
 import { DeliveredHeader } from "./DeliveredHeader";
 
 export const dynamic = "force-dynamic";
@@ -46,7 +47,7 @@ export default async function DeliveredPage() {
                 id={it.id}
                 title={it.title}
                 content={it.content}
-                completedAt={it.completedAt!}
+                completedAt={it.completedAt ?? it.updatedAt}
                 voteCount={it.voteCount}
                 submitterName={it.submitterName}
               />
@@ -75,12 +76,13 @@ function DeliveredHero({
         className="pointer-events-none absolute inset-0 -z-0"
         style={{
           background: [
-            "radial-gradient(ellipse 70% 80% at 50% 100%, rgb(var(--accent-glow) / 0.55) 0%, rgb(var(--accent-violet) / 0.20) 35%, transparent 65%)",
-            "radial-gradient(ellipse 50% 60% at 14% 10%, rgb(var(--accent-silver) / 0.40) 0%, transparent 60%)",
+            "radial-gradient(ellipse 70% 80% at 50% 100%, rgb(var(--accent-glow) / 0.45) 0%, rgb(var(--accent-violet) / 0.16) 35%, transparent 65%)",
+            "radial-gradient(ellipse 50% 60% at 14% 10%, rgb(var(--accent-silver) / 0.32) 0%, transparent 60%)",
             "linear-gradient(180deg, rgb(var(--surface)) 0%, rgb(var(--surface-subtle)) 100%)",
           ].join(", "),
         }}
       />
+      <BreathingHalo />
       <div className="relative mx-auto flex max-w-4xl flex-col items-center px-4 py-12 text-center sm:py-16">
         <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-ink shadow-glow ring-1 ring-accent-silver/40">
           <svg
