@@ -1,13 +1,14 @@
 "use client";
 
-import { CATEGORIES, PUBLIC_STATUSES, type Category, type Status } from "@/lib/types";
+import { CATEGORIES, PLAZA_STATUSES, type Category, type Status } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Select } from "@/components/ui/Select";
 
 export type SortKey = "trending" | "latest";
 
 /**
  * 极简筛选条：左侧 Trending / Latest 用纯文字 + 图标 + 竖线分隔，
- * 右侧 类别 / 状态 用裸下拉（无边框），保持页面"轻"的呼吸感。
+ * 右侧 类别 / 状态 用 Radix Select（自渲染 popover，token 化），保持页面"轻"的呼吸感。
  *
  * 颜色全部 token 化：
  *   - active sort     → accent-violet（与品牌色一致的高亮）
@@ -61,7 +62,7 @@ export function Filters({
           label="状态"
           value={status}
           onChange={(v) => onStatus(v as Status | undefined)}
-          options={PUBLIC_STATUSES}
+          options={PLAZA_STATUSES}
         />
       </div>
     </div>
@@ -92,39 +93,6 @@ function SortLink({
     >
       {children}
     </button>
-  );
-}
-
-function Select({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value?: string;
-  onChange: (v?: string) => void;
-  options: readonly string[];
-}) {
-  return (
-    <label className="inline-flex items-center gap-1.5">
-      <span className="text-ink-faint">{label}</span>
-      <span className="relative inline-flex items-center">
-        <select
-          value={value || ""}
-          onChange={(e) => onChange(e.target.value || undefined)}
-          className="cursor-pointer appearance-none bg-transparent pr-5 font-medium text-ink outline-none transition-colors hover:text-accent-violet"
-        >
-          <option value="">全部</option>
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <ChevronIcon className="pointer-events-none absolute right-0 h-3.5 w-3.5 text-ink-faint" />
-      </span>
-    </label>
   );
 }
 
@@ -161,18 +129,3 @@ function ClockIcon() {
   );
 }
 
-function ChevronIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}

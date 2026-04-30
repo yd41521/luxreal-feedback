@@ -83,6 +83,17 @@ const config: Config = {
         "hero-veil":
           "radial-gradient(ellipse at top right, rgba(196,181,253,0.30) 0%, transparent 55%), radial-gradient(ellipse at bottom left, rgba(203,213,225,0.40) 0%, transparent 50%)",
       },
+      keyframes: {
+        // Radix popover 入场：从触发器一侧轻微缩放上滑淡入。Radix 提供
+        // --radix-*-content-transform-origin CSS 变量，由我们在 className 中绑定 transform-origin。
+        popIn: {
+          "0%": { opacity: "0", transform: "scale(0.96) translateY(-4px)" },
+          "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
+        },
+      },
+      animation: {
+        popIn: "popIn 140ms cubic-bezier(0.16, 1, 0.3, 1)",
+      },
     },
   },
   plugins: [],

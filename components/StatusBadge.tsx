@@ -6,7 +6,7 @@ const STATUS_STYLE: Record<Status, string> = {
   已通过: "bg-slate-100 text-slate-700",
   计划中: "bg-blue-50 text-blue-600",
   开发中: "bg-amber-50 text-amber-600",
-  已完成: "bg-emerald-50 text-emerald-600",
+  已完成: "bg-surface-muted text-ink-muted",
   已拒绝: "bg-rose-50 text-rose-600",
 };
 

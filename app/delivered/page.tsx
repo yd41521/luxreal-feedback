@@ -34,13 +34,11 @@ export default async function DeliveredPage() {
     <>
       <DeliveredHeader />
 
-      <DeliveredHero stats={stats} />
+      <DeliveredHero stats={stats} showStatsStrip={hasItems} />
 
       <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-        {hasItems && <StatsRow stats={stats} />}
-
         {hasItems ? (
-          <div className="mt-6 space-y-3">
+          <div className="pt-8 sm:pt-10 space-y-3">
             {items.map((it) => (
               <DeliveredCard
                 key={it.id}
@@ -61,29 +59,37 @@ export default async function DeliveredPage() {
   );
 }
 
+type DeliveredPageStats = {
+  total: number;
+  totalVotes: number;
+  lastDeliveredAt: number | null;
+};
+
 function DeliveredHero({
   stats,
+  showStatsStrip,
 }: {
-  stats: { total: number };
+  stats: DeliveredPageStats;
+  showStatsStrip: boolean;
 }) {
   return (
     <section
       data-embed-hide="true"
-      className="relative overflow-hidden border-b border-surface-muted bg-surface"
+      className="relative overflow-hidden bg-surface"
     >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-0"
         style={{
           background: [
-            "radial-gradient(ellipse 70% 80% at 50% 100%, rgb(var(--accent-glow) / 0.45) 0%, rgb(var(--accent-violet) / 0.16) 35%, transparent 65%)",
+            "radial-gradient(ellipse 90% 75% at 50% 110%, rgb(var(--accent-glow) / 0.42) 0%, rgb(var(--accent-violet) / 0.12) 42%, transparent 72%)",
             "radial-gradient(ellipse 50% 60% at 14% 10%, rgb(var(--accent-silver) / 0.32) 0%, transparent 60%)",
             "linear-gradient(180deg, rgb(var(--surface)) 0%, rgb(var(--surface-subtle)) 100%)",
           ].join(", "),
         }}
       />
       <BreathingHalo />
-      <div className="relative mx-auto flex max-w-4xl flex-col items-center px-4 py-12 text-center sm:py-16">
+      <div className="relative z-[1] mx-auto flex max-w-4xl flex-col items-center px-4 pb-12 pt-12 text-center sm:pb-14 sm:pt-16">
         <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-ink shadow-glow ring-1 ring-accent-silver/40">
           <svg
             viewBox="0 0 24 24"
@@ -105,37 +111,44 @@ function DeliveredHero({
         <p className="mt-3 max-w-2xl text-sm text-ink-subtle sm:text-base">
           每一个完成的功能背后，都有用户的声音
         </p>
+        {showStatsStrip ? <HeroStatsStrip stats={stats} /> : null}
       </div>
     </section>
   );
 }
 
-function StatsRow({
-  stats,
-}: {
-  stats: { total: number; totalVotes: number; lastDeliveredAt: number | null };
-}) {
+/** 统计与标题同属一块 banner：无独立白卡片、无负 margin，避免与列表区「骑缝」截断感。 */
+function HeroStatsStrip({ stats }: { stats: DeliveredPageStats }) {
   return (
-    <div className="-mt-7 grid grid-cols-3 gap-3 rounded-2xl border border-surface-muted bg-surface p-3 shadow-glow sm:p-5">
-      <Stat label="已上线" value={stats.total.toString()} />
-      <Stat label="总投票" value={stats.totalVotes.toString()} />
-      <Stat
-        label="最近交付"
-        value={
-          stats.lastDeliveredAt
-            ? formatRelativeTime(stats.lastDeliveredAt)
-            : "—"
-        }
-      />
+    <div
+      className="mt-8 w-full max-w-md sm:mt-10 sm:max-w-xl"
+      role="region"
+      aria-label="交付统计"
+    >
+      <div className="flex items-stretch justify-center divide-x divide-accent-violet/25 sm:divide-accent-violet/30">
+        <HeroStatCell label="已上线" value={stats.total.toString()} />
+        <HeroStatCell
+          label="总投票"
+          value={stats.totalVotes.toString()}
+        />
+        <HeroStatCell
+          label="最近交付"
+          value={
+            stats.lastDeliveredAt
+              ? formatRelativeTime(stats.lastDeliveredAt)
+              : "—"
+          }
+        />
+      </div>
     </div>
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function HeroStatCell({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-1 px-2 py-3 text-center">
-      <span className="text-xs text-ink-faint">{label}</span>
-      <span className="text-xl font-semibold text-ink tabular-nums sm:text-2xl">
+    <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-3 py-1 text-center sm:px-5">
+      <span className="text-xs text-ink-muted">{label}</span>
+      <span className="text-xl font-semibold tabular-nums text-ink sm:text-2xl">
         {value}
       </span>
     </div>

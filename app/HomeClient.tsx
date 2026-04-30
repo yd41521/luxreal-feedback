@@ -1,11 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { ScrollSubmitFab } from "@/components/ScrollSubmitFab";
 import { Filters, type SortKey } from "@/components/Filters";
 import { ItemCard } from "@/components/ItemCard";
 import { SubmitDialog } from "@/components/SubmitDialog";
@@ -31,6 +32,8 @@ export default function HomeClient() {
   const [status, setStatus] = useState<Status | undefined>(undefined);
   const [q, setQ] = useState("");
   const [openSubmit, setOpenSubmit] = useState(false);
+  const heroSentinelRef = useRef<HTMLDivElement>(null);
+  const [showScrollFab, setShowScrollFab] = useState(false);
 
   const searchParams = useSearchParams();
   useEffect(() => {
@@ -38,6 +41,19 @@ export default function HomeClient() {
       setOpenSubmit(true);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const el = heroSentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setShowScrollFab(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const apiUrl = useMemo(() => {
     const sp = new URLSearchParams();
@@ -74,6 +90,12 @@ export default function HomeClient() {
           </div>
         }
       />
+      {/* Hero 底部哨兵：滚出视口后出现右下角「提交想法」浮动按钮 */}
+      <div
+        ref={heroSentinelRef}
+        aria-hidden
+        className="pointer-events-none h-px w-full shrink-0"
+      />
 
       <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
         <Filters
@@ -97,6 +119,12 @@ export default function HomeClient() {
           )}
         </div>
       </main>
+
+      <ScrollSubmitFab
+        show={showScrollFab}
+        dialogOpen={openSubmit}
+        onSubmit={() => setOpenSubmit(true)}
+      />
 
       <SubmitDialog
         open={openSubmit}

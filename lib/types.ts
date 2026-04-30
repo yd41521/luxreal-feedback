@@ -8,11 +8,24 @@ export type Status =
   | "已完成"
   | "已拒绝";
 
+/**
+ * 详情页可见的状态集合：包含「已完成」，确保已完成项目的直链 /items/[id] 不会 404。
+ */
 export const PUBLIC_STATUSES: Status[] = [
   "已通过",
   "计划中",
   "开发中",
   "已完成",
+];
+
+/**
+ * 想法广场（首页）可见的状态集合：不含「已完成」。
+ * 已完成的想法只出现在 /delivered 成就墙，避免和"还在路上"的内容混排。
+ */
+export const PLAZA_STATUSES: Status[] = [
+  "已通过",
+  "计划中",
+  "开发中",
 ];
 
 export const CATEGORIES: Category[] = ["想法和建议", "Bug 反馈", "其他"];

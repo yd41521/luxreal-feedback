@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { cn } from "@/lib/utils";
 
@@ -33,10 +34,25 @@ export function Header({
   });
   const deliveredCount = stats?.total ?? 0;
 
+  // Scroll-aware backing：滚出 banner 后浮出半透明白底，保护卡片可读性；
+  // 顶端时保持完全透明，让 hero 主图通透。
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <header
       data-embed-hide="true"
-      className="sticky top-0 z-30"
+      className={cn(
+        "sticky top-0 z-30 border-b transition-colors duration-200",
+        scrolled
+          ? "border-surface-muted/60 bg-surface/80 backdrop-blur-md"
+          : "border-transparent bg-transparent"
+      )}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex shrink-0 items-center gap-2">
@@ -53,17 +69,10 @@ export function Header({
             想法广场
           </NavLink>
           <NavLink href="/delivered" active={current === "delivered"}>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-baseline gap-1.5">
               已上线
               {deliveredCount > 0 && (
-                <span
-                  className={cn(
-                    "inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5 text-xs font-semibold",
-                    current === "delivered"
-                      ? "bg-emerald-500 text-white"
-                      : "bg-emerald-50 text-emerald-600"
-                  )}
-                >
+                <span className="text-xs tabular-nums text-ink-faint">
                   {deliveredCount}
                 </span>
               )}

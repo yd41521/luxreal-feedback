@@ -5,7 +5,7 @@ import type {
   ListQuery,
   Status,
 } from "./types";
-import { PUBLIC_STATUSES } from "./types";
+import { PLAZA_STATUSES, PUBLIC_STATUSES } from "./types";
 
 /**
  * 飞书多维表格 SDK 简易封装。
@@ -217,8 +217,9 @@ export async function listItems(query: ListQuery): Promise<{
   // MVP 数据量不大，统一拉一页（最多 500 条），筛选/排序/分页在内存中完成，简单可靠。
   const all = await fetchAllItemsRaw();
 
+  // 想法广场：不展示「已完成」（它们在 /delivered 成就墙单独陈列）
   let items = all.filter(
-    (it) => it.visible && PUBLIC_STATUSES.includes(it.status)
+    (it) => it.visible && PLAZA_STATUSES.includes(it.status)
   );
   if (query.status) {
     items = items.filter((it) => it.status === query.status);

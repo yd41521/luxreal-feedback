@@ -15,6 +15,8 @@ import type { Variants, Transition } from "framer-motion";
 export const easings = {
   standard: [0.2, 0, 0, 1] as [number, number, number, number],
   emphasized: [0.05, 0.7, 0.1, 1] as [number, number, number, number],
+  /** FAB 入场：末端柔和减速。 */
+  fab: [0.22, 1, 0.4, 1] as [number, number, number, number],
   spring: { type: "spring", stiffness: 280, damping: 26 } as Transition,
 } as const;
 
@@ -22,7 +24,8 @@ export const easings = {
 export const durations = {
   fast: 0.18,
   base: 0.32,
-  slow: 0.52,
+  /** 浮动 CTA：比 fast 明显更慢，减少「突然弹出」感。 */
+  fab: 0.46,
 } as const;
 
 /** 一个保留位：完全无动效（用于禁用动效场景的 variant 占位）。 */
