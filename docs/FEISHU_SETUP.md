@@ -135,3 +135,21 @@ FEISHU_TABLE_VOTES=tblYyyyyyyyyyyyy
 - 不当内容 → 取消 `visible` 勾选（不删除，留痕）
 - 排期 → 改 `status` 为 `计划中` / `开发中`
 - **上线**（重要）→ 改 `status` 为 `已完成` 的同时，**手动把 `completed_at` 填上今天的日期**。两个动作缺一不可，否则成就墙看不到这条
+
+---
+
+## 10. 批量写入演示数据（可选）
+
+本地已配置 `.env.local` 时，可向 `feedback_items` **追加** 一批与用户口吻一致的演示行（含 0–3 票、`已通过`/`计划中`/`开发中` 等，便于列表与 Trending 排序演示）：
+
+```bash
+npm run seed:demo
+```
+
+先预览不写库：
+
+```bash
+node scripts/seed-luxreal-demo.mjs --dry-run
+```
+
+**注意**：每执行一次都会**再插入** 16 行，不会覆盖旧数据；重复跑之前请在多维表格里手动删掉上一轮演示行。
