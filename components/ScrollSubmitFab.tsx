@@ -39,7 +39,8 @@ export function ScrollSubmitFab({
           }
           transition={fabTransition}
           className={cn(
-            "fixed bottom-6 left-1/2 z-40 -translate-x-1/2 sm:bottom-8"
+            "fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 -translate-x-1/2 sm:bottom-8",
+            "max-sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))]"
           )}
         >
           <button

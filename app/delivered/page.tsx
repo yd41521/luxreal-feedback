@@ -173,31 +173,33 @@ function DeliveredCard({
   return (
     <Link
       href={`/items/${id}`}
-      className="group flex items-start gap-4 rounded-2xl border border-surface-muted bg-surface p-4 shadow-card transition hover:-translate-y-0.5 hover:border-accent-violet/40 hover:shadow-card-hover sm:p-5"
+      className="group flex flex-col gap-3 rounded-2xl border border-surface-muted bg-surface p-4 shadow-card transition hover:-translate-y-0.5 hover:border-accent-violet/40 hover:shadow-card-hover sm:flex-row sm:items-start sm:gap-4 sm:p-5"
     >
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-glow/40 text-ink transition group-hover:bg-accent-glow/60 sm:h-14 sm:w-14">
-        <svg
-          viewBox="0 0 24 24"
-          className="h-6 w-6 sm:h-7 sm:w-7"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m5 12 4 4 10-10" />
-        </svg>
+      <div className="flex min-w-0 flex-1 items-start gap-3 sm:gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-glow/40 text-ink transition group-hover:bg-accent-glow/60 sm:h-14 sm:w-14">
+          <svg
+            viewBox="0 0 24 24"
+            className="h-6 w-6 sm:h-7 sm:w-7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m5 12 4 4 10-10" />
+          </svg>
+        </div>
+        <div className="min-w-0 flex-1">
+          <h3 className="line-clamp-2 text-base font-semibold leading-snug text-ink sm:text-lg">
+            {title}
+          </h3>
+          <p className="mt-1 line-clamp-2 text-sm text-ink-subtle">{content}</p>
+          {submitterName && (
+            <p className="mt-1 text-xs text-ink-faint">由 @{submitterName} 建议</p>
+          )}
+        </div>
       </div>
-      <div className="min-w-0 flex-1">
-        <h3 className="text-base font-semibold leading-snug text-ink sm:text-lg line-clamp-2">
-          {title}
-        </h3>
-        <p className="mt-1 line-clamp-2 text-sm text-ink-subtle">{content}</p>
-        {submitterName && (
-          <p className="mt-1 text-xs text-ink-faint">由 @{submitterName} 建议</p>
-        )}
-      </div>
-      <div className="flex shrink-0 flex-col items-end gap-2">
+      <div className="flex shrink-0 flex-row items-center justify-between gap-3 border-t border-surface-muted pt-3 sm:flex-col sm:items-end sm:justify-start sm:border-t-0 sm:pt-0">
         <span className="inline-flex items-center rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-ink-muted">
           已上线 {formatRelativeTime(completedAt)}
         </span>

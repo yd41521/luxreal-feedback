@@ -35,8 +35,8 @@ export function Select({
   placeholder = "全部",
 }: SelectProps) {
   return (
-    <label className="inline-flex items-center gap-1.5">
-      <span className="text-ink-faint">{label}</span>
+    <label className="inline-flex min-h-[44px] items-center gap-1.5 py-1">
+      <span className="shrink-0 text-ink-faint">{label}</span>
       <RadixSelect.Root
         value={value ?? ALL}
         onValueChange={(v) => onChange(v === ALL ? undefined : v)}
@@ -44,11 +44,11 @@ export function Select({
         <RadixSelect.Trigger
           aria-label={label}
           className={cn(
-            "inline-flex cursor-pointer items-center gap-1 outline-none",
+            "inline-flex min-h-[44px] cursor-pointer items-center gap-1 rounded-md px-1 -mx-1 outline-none",
             "font-medium text-ink transition-colors",
             "hover:text-accent-violet",
             "data-[state=open]:text-accent-violet",
-            "focus-visible:rounded focus-visible:ring-2 focus-visible:ring-accent-violet/40 focus-visible:ring-offset-2"
+            "focus-visible:ring-2 focus-visible:ring-accent-violet/40 focus-visible:ring-offset-2"
           )}
         >
           <RadixSelect.Value placeholder={placeholder} />

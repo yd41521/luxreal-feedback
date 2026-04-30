@@ -66,14 +66,14 @@ export function Hero({
           <div className="relative h-72 sm:h-96 lg:h-auto">{asideSlot}</div>
         </div>
       ) : (
-        <div className="relative mx-auto flex min-h-[380px] max-w-3xl flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[440px] sm:py-20">
-          <h1 className="text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[44px]">
+        <div className="relative mx-auto flex min-h-[320px] max-w-3xl flex-col items-center justify-center px-3 py-12 text-center sm:min-h-[380px] sm:px-4 sm:py-20 lg:min-h-[440px]">
+          <h1 className="text-balance text-2xl font-bold leading-tight text-ink sm:text-3xl lg:text-[44px]">
             {title}
           </h1>
           <p className="mt-3 text-sm text-ink-subtle sm:text-base lg:text-lg">
             {subtitle}
           </p>
-          <div className="mt-7 w-full max-w-xl">
+          <div className="mt-6 w-full max-w-xl sm:mt-7">
             <SearchInput value={v} onChange={setV} />
           </div>
         </div>
@@ -108,7 +108,7 @@ function SearchInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder="搜索想法、关键词..."
         className={cn(
-          "h-12 w-full rounded-2xl border border-surface-muted bg-surface/90 pl-11 pr-4 text-sm text-ink shadow-sm outline-none backdrop-blur-sm transition",
+          "h-12 min-h-[48px] w-full rounded-2xl border border-surface-muted bg-surface/90 pl-11 pr-4 text-base text-ink shadow-sm outline-none backdrop-blur-sm transition sm:text-sm",
           "placeholder:text-ink-faint focus:border-accent-violet focus:ring-2 focus:ring-accent-violet/30"
         )}
       />

@@ -6,7 +6,7 @@ import { VoteButton } from "./VoteButton";
 
 export function ItemCard({ item }: { item: FeedbackItem }) {
   return (
-    <article className="flex items-start gap-4 rounded-2xl border border-slate-100 bg-white p-4 shadow-card transition hover:shadow-card-hover sm:p-5">
+    <article className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-white p-3.5 shadow-card transition hover:shadow-card-hover sm:gap-4 sm:p-5">
       <VoteButton itemId={item.id} initialCount={item.voteCount} />
       <Link
         href={`/items/${item.id}`}

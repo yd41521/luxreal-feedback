@@ -32,13 +32,15 @@ export function Filters({
   onStatus: (s?: Status) => void;
 }) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 py-4 text-sm">
-      <div className="flex items-center gap-3">
+    <div className="flex flex-col gap-3 py-4 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-6 sm:gap-y-3">
+      <div className="flex min-h-[44px] flex-wrap items-center gap-2 sm:gap-3">
         <SortLink
           active={sort === "trending"}
           onClick={() => onSort("trending")}
         >
-          <FlameIcon /> Trending（热门）
+          <FlameIcon />{" "}
+          <span className="max-sm:hidden">Trending（热门）</span>
+          <span className="sm:hidden">热门</span>
         </SortLink>
         <span aria-hidden className="text-ink-faint/50">
           |
@@ -47,11 +49,13 @@ export function Filters({
           active={sort === "latest"}
           onClick={() => onSort("latest")}
         >
-          <ClockIcon /> Latest（最新）
+          <ClockIcon />{" "}
+          <span className="max-sm:hidden">Latest（最新）</span>
+          <span className="sm:hidden">最新</span>
         </SortLink>
       </div>
 
-      <div className="flex items-center gap-5">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 sm:justify-end">
         <Select
           label="类别"
           value={category}
@@ -83,7 +87,7 @@ function SortLink({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex items-center gap-1.5 transition-colors",
+        "inline-flex min-h-[44px] items-center gap-1.5 rounded-lg px-1 transition-colors sm:min-h-0 sm:px-0",
         // active：深色 + medium 字重压住整行；icon 仍跟随 text color
         // inactive：浅灰，hover 转中灰
         active

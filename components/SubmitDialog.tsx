@@ -91,15 +91,15 @@ export function SubmitDialog({
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] sm:p-4"
     >
       <div
         className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
-          <div>
+      <div className="relative flex max-h-[calc(100dvh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-3xl bg-white shadow-2xl sm:max-h-[min(90dvh,56rem)]">
+        <div className="flex shrink-0 items-center justify-between gap-3 border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">
+          <div className="min-w-0">
             <h2 className="text-lg font-semibold text-slate-900">
               提交一个新想法
             </h2>
@@ -110,7 +110,7 @@ export function SubmitDialog({
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+            className="-mr-1 flex h-11 min-h-[44px] w-11 min-w-[44px] shrink-0 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-600"
           >
             <svg
               className="h-5 w-5"
@@ -126,7 +126,7 @@ export function SubmitDialog({
           </button>
         </div>
 
-        <div className="space-y-4 px-6 py-5">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-y-contain px-4 py-4 sm:px-6 sm:py-5">
           <Field
             label="标题"
             required
@@ -136,7 +136,7 @@ export function SubmitDialog({
               value={title}
               onChange={(e) => setTitle(e.target.value.slice(0, 60))}
               placeholder="用一句话描述你的想法"
-              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              className="h-12 min-h-[48px] w-full rounded-xl border border-slate-200 bg-white px-3 text-base outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 sm:h-11 sm:min-h-0 sm:text-sm"
             />
           </Field>
 
@@ -159,19 +159,19 @@ export function SubmitDialog({
               onChange={(e) => setContent(e.target.value.slice(0, 2000))}
               placeholder="详细说明使用场景、期望效果..."
               rows={5}
-              className="block w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm leading-6 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+              className="block min-h-[8rem] w-full resize-y rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-base leading-6 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 sm:text-sm"
             />
           </Field>
 
           <Field label="类别" required>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 gap-2 min-[400px]:grid-cols-3">
               {CATEGORIES.map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setCategory(c)}
                   className={cn(
-                    "flex h-10 items-center justify-center rounded-xl border text-sm transition",
+                    "flex min-h-[44px] items-center justify-center rounded-xl border px-2 text-center text-sm transition",
                     category === c
                       ? "border-brand-500 bg-brand-50 text-brand-700"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
@@ -189,7 +189,7 @@ export function SubmitDialog({
                 value={name}
                 onChange={(e) => setName(e.target.value.slice(0, 20))}
                 placeholder="请输入你的昵称"
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="h-12 min-h-[48px] w-full rounded-xl border border-slate-200 bg-white px-3 text-base outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 sm:h-11 sm:min-h-0 sm:text-sm"
               />
             </Field>
             <Field label="联系方式（可选）">
@@ -197,7 +197,7 @@ export function SubmitDialog({
                 value={contact}
                 onChange={(e) => setContact(e.target.value.slice(0, 50))}
                 placeholder="邮箱或手机号"
-                className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100"
+                className="h-12 min-h-[48px] w-full rounded-xl border border-slate-200 bg-white px-3 text-base outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-100 sm:h-11 sm:min-h-0 sm:text-sm"
               />
             </Field>
           </div>
@@ -214,14 +214,14 @@ export function SubmitDialog({
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-3">
-          <p className="text-xs text-slate-500">
+        <div className="flex shrink-0 flex-col gap-3 border-t border-slate-100 bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <p className="order-2 text-xs text-slate-500 sm:order-1 sm:max-w-[14rem]">
             提交后由官方审核，通过后将公开展示
           </p>
-          <div className="flex gap-2">
+          <div className="order-1 flex w-full gap-2 sm:order-2 sm:w-auto">
             <button
               onClick={onClose}
-              className="h-9 rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-600 hover:bg-slate-50"
+              className="h-11 min-h-[44px] flex-1 rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-600 hover:bg-slate-50 sm:h-9 sm:min-h-0 sm:flex-initial"
             >
               取消
             </button>
@@ -230,7 +230,7 @@ export function SubmitDialog({
               onClick={handleSubmit}
               title={blockReason ?? undefined}
               className={cn(
-                "h-9 rounded-lg px-4 text-sm font-medium text-cta-fg transition",
+                "h-11 min-h-[44px] flex-1 rounded-lg px-4 text-sm font-medium text-cta-fg transition sm:h-9 sm:min-h-0 sm:flex-initial",
                 canSubmit
                   ? "bg-cta hover:bg-cta-hover"
                   : "bg-cta-muted cursor-not-allowed"

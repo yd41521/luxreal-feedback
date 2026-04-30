@@ -76,7 +76,7 @@ export function VoteButton({
       title={voted ? "点击取消投票" : "为这个想法投票"}
       className={cn(
         "group flex flex-col items-center justify-center rounded-2xl border transition-all duration-200 select-none",
-        isLarge ? "w-[110px] py-5 gap-1" : "w-[72px] py-3 gap-0.5",
+        isLarge ? "w-[110px] min-h-[120px] py-5 gap-1" : "w-[72px] min-h-[72px] py-3 gap-0.5",
         voted
           ? // 已投票静态：银紫
             "border-accent-violet/60 bg-accent-glow/45 text-accent-violet shadow-card " +

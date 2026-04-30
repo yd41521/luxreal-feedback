@@ -19,7 +19,7 @@ export function CopyLinkButton({ id }: { id: string }) {
           /* ignore */
         }
       }}
-      className="inline-flex h-9 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 hover:bg-slate-50"
+      className="inline-flex h-11 min-h-[44px] w-full items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 hover:bg-slate-50 sm:h-9 sm:min-h-0 sm:w-auto"
     >
       <svg
         viewBox="0 0 24 24"

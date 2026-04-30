@@ -54,9 +54,9 @@ export function Header({
           : "border-transparent bg-transparent"
       )}
     >
-      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-cta text-sm font-bold text-cta-fg">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-3 sm:h-14 sm:gap-4 sm:px-6">
+        <Link href="/" className="flex min-h-[44px] min-w-[44px] shrink-0 items-center gap-1.5 sm:gap-2">
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-cta text-sm font-bold text-cta-fg sm:h-7 sm:w-7">
             L
           </span>
           <span className="hidden text-base font-semibold text-slate-900 sm:inline">
@@ -64,12 +64,12 @@ export function Header({
           </span>
         </Link>
 
-        <nav className="flex flex-1 items-center justify-center gap-1 sm:gap-3">
+        <nav className="flex min-w-0 flex-1 items-center justify-center gap-0.5 sm:gap-3">
           <NavLink href="/" active={current === "home"}>
             想法广场
           </NavLink>
           <NavLink href="/delivered" active={current === "delivered"}>
-            <span className="inline-flex items-baseline gap-1.5">
+            <span className="inline-flex items-baseline gap-1 sm:gap-1.5">
               已上线
               {deliveredCount > 0 && (
                 <span className="text-xs tabular-nums text-ink-faint">
@@ -83,16 +83,19 @@ export function Header({
         {submitHref ? (
           <Link
             href={submitHref}
-            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover"
+            className="inline-flex h-10 min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-cta px-2.5 text-xs font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover sm:h-9 sm:px-4 sm:text-sm"
           >
-            提交想法
+            <span className="sm:hidden">提交</span>
+            <span className="hidden sm:inline">提交想法</span>
           </Link>
         ) : (
           <button
+            type="button"
             onClick={onSubmitClick}
-            className="inline-flex h-9 shrink-0 items-center justify-center rounded-lg bg-cta px-4 text-sm font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover"
+            className="inline-flex h-10 min-h-[44px] shrink-0 items-center justify-center rounded-lg bg-cta px-2.5 text-xs font-medium text-cta-fg shadow-sm transition hover:bg-cta-hover sm:h-9 sm:px-4 sm:text-sm"
           >
-            提交想法
+            <span className="sm:hidden">提交</span>
+            <span className="hidden sm:inline">提交想法</span>
           </button>
         )}
       </div>
@@ -113,7 +116,7 @@ function NavLink({
     <Link
       href={href}
       className={cn(
-        "relative flex h-9 items-center rounded-lg px-3 text-sm font-medium transition",
+        "relative flex min-h-[44px] items-center rounded-lg px-2 text-xs font-medium transition sm:h-9 sm:px-3 sm:text-sm",
         active
           ? "text-slate-900"
           : "text-slate-500 hover:text-slate-900"

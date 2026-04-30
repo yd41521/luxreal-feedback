@@ -30,9 +30,9 @@ export default async function DetailPage({
           <span className="text-slate-900">想法详情</span>
         </nav>
 
-        <article className="overflow-hidden rounded-3xl border border-slate-100 bg-white p-6 shadow-card sm:p-8">
-          <div className="flex flex-col gap-6 sm:flex-row sm:gap-8">
-            <div className="sm:pt-1">
+        <article className="overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-card sm:p-8">
+          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start sm:gap-8">
+            <div className="flex justify-center sm:block sm:pt-1">
               <VoteButton
                 itemId={item.id}
                 initialCount={item.voteCount}
@@ -57,11 +57,11 @@ export default async function DetailPage({
                 {item.content}
               </div>
 
-              <div className="mt-8 flex flex-wrap justify-end gap-2">
+              <div className="mt-8 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:justify-end">
                 <CopyLinkButton id={item.id} />
                 <Link
                   href="/"
-                  className="inline-flex h-9 items-center rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 hover:bg-slate-50"
+                  className="inline-flex h-11 min-h-[44px] items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 hover:bg-slate-50 sm:h-9 sm:min-h-0"
                 >
                   返回列表
                 </Link>
