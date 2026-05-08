@@ -1,11 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { HeroAtmosphere } from "@/components/HeroAtmosphere";
 import { ScrollSubmitFab } from "@/components/ScrollSubmitFab";
 import { Filters, type SortKey } from "@/components/Filters";
 import { ItemCard } from "@/components/ItemCard";
@@ -76,19 +76,7 @@ export default function HomeClient() {
       <Header current="home" onSubmitClick={() => setOpenSubmit(true)} />
       <Hero
         onSearch={handleSearch}
-        backgroundSlot={
-          <div className="absolute inset-0">
-            <Image
-              src="/assets/hero-banner.png"
-              alt=""
-              aria-hidden
-              fill
-              priority
-              sizes="100vw"
-              className="select-none object-cover object-center"
-            />
-          </div>
-        }
+        backgroundSlot={<HeroAtmosphere />}
       />
       {/* Hero 底部哨兵：滚出视口后出现右下角「提交想法」浮动按钮 */}
       <div

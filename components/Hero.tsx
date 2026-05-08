@@ -43,12 +43,13 @@ export function Hero({
       data-embed-hide="true"
       className="relative overflow-hidden border-b border-surface-muted bg-surface"
     >
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
+      {/* z-0：装饰层必须在内容之下；勿用负 z-index，否则会被 section 的 bg-surface 盖住 */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         {backgroundSlot ?? <DefaultHeroBackground hasAside={hasAside} />}
       </div>
 
       {hasAside ? (
-        <div className="relative grid min-h-[420px] grid-cols-1 lg:min-h-[480px] lg:grid-cols-2">
+        <div className="relative z-10 grid min-h-[420px] grid-cols-1 lg:min-h-[480px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-6 py-12 sm:px-8 sm:py-16 lg:items-end lg:py-20 lg:pr-10 xl:pr-14">
             <div className="w-full max-w-2xl">
               <h1 className="text-balance text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[44px] xl:text-5xl">
@@ -66,7 +67,7 @@ export function Hero({
           <div className="relative h-72 sm:h-96 lg:h-auto">{asideSlot}</div>
         </div>
       ) : (
-        <div className="relative mx-auto flex min-h-[320px] max-w-3xl flex-col items-center justify-center px-3 py-12 text-center sm:min-h-[380px] sm:px-4 sm:py-20 lg:min-h-[440px]">
+        <div className="relative z-10 mx-auto flex min-h-[320px] max-w-3xl flex-col items-center justify-center px-3 py-12 text-center sm:min-h-[380px] sm:px-4 sm:py-20 lg:min-h-[440px]">
           <h1 className="text-balance text-2xl font-bold leading-tight text-ink sm:text-3xl lg:text-[44px]">
             {title}
           </h1>

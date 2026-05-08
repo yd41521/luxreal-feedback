@@ -90,9 +90,23 @@ const config: Config = {
           "0%": { opacity: "0", transform: "scale(0.96) translateY(-4px)" },
           "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
         },
+        /** 取消赞时箭头轻弹，不切换为横杠 */
+        voteUnvote: {
+          "0%, 100%": { transform: "translateY(0) scale(1)" },
+          "35%": { transform: "translateY(-3px) scale(1.05)" },
+          "65%": { transform: "translateY(2px) scale(0.97)" },
+        },
+        /** 已投票态 hover：轻微摆动提示可再点取消 */
+        voteArrowHint: {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "33%": { transform: "rotate(-6deg)" },
+          "66%": { transform: "rotate(6deg)" },
+        },
       },
       animation: {
         popIn: "popIn 140ms cubic-bezier(0.16, 1, 0.3, 1)",
+        voteUnvote: "voteUnvote 0.45s cubic-bezier(0.34, 1.2, 0.64, 1)",
+        voteArrowHint: "voteArrowHint 0.5s ease-in-out",
       },
     },
   },
