@@ -4,7 +4,7 @@
   "private": true,
   "description": "LuxReal 专业版用户反馈征集平台",
   "engines": {
-    "node": ">=20.9.0"
+    "node": "20.x"
   },
   "scripts": {
     "dev": "next dev",
