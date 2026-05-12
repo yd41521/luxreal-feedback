@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { listDeliveredItems } from "@/lib/feishu";
 import { formatRelativeTime } from "@/lib/utils";
-import { BreathingHalo } from "@/components/BreathingHalo";
 import { DeliveredHeader } from "./DeliveredHeader";
+import { DeliveredHeroClient } from "./DeliveredHeroClient";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 30;
@@ -20,7 +20,7 @@ export default async function DeliveredPage() {
     return (
       <>
         <DeliveredHeader />
-        <main className="mx-auto max-w-3xl px-4 py-16 text-center">
+        <main className="relative isolate z-[100] mx-auto max-w-3xl bg-transparent px-4 py-16 text-center">
           <p className="text-sm text-rose-600">数据加载失败：{(e as Error).message}</p>
         </main>
       </>
@@ -34,11 +34,11 @@ export default async function DeliveredPage() {
     <>
       <DeliveredHeader />
 
-      <DeliveredHero stats={stats} showStatsStrip={hasItems} />
+      <DeliveredHeroClient stats={stats} showStatsStrip={hasItems} />
 
-      <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
+      <main className="relative isolate z-[100] mx-auto max-w-5xl bg-transparent px-4 pb-16 sm:px-6">
         {hasItems ? (
-          <div className="pt-8 sm:pt-10 space-y-3">
+          <div className="space-y-3 pt-8 sm:pt-10">
             {items.map((it) => (
               <DeliveredCard
                 key={it.id}
@@ -56,102 +56,6 @@ export default async function DeliveredPage() {
         )}
       </main>
     </>
-  );
-}
-
-type DeliveredPageStats = {
-  total: number;
-  totalVotes: number;
-  lastDeliveredAt: number | null;
-};
-
-function DeliveredHero({
-  stats,
-  showStatsStrip,
-}: {
-  stats: DeliveredPageStats;
-  showStatsStrip: boolean;
-}) {
-  return (
-    <section
-      data-embed-hide="true"
-      className="relative overflow-hidden bg-surface"
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-0"
-        style={{
-          background: [
-            "radial-gradient(ellipse 90% 75% at 50% 110%, rgb(var(--accent-glow) / 0.42) 0%, rgb(var(--accent-violet) / 0.12) 42%, transparent 72%)",
-            "radial-gradient(ellipse 50% 60% at 14% 10%, rgb(var(--accent-silver) / 0.32) 0%, transparent 60%)",
-            "linear-gradient(180deg, rgb(var(--surface)) 0%, rgb(var(--surface-subtle)) 100%)",
-          ].join(", "),
-        }}
-      />
-      <BreathingHalo />
-      <div className="relative z-[1] mx-auto flex max-w-4xl flex-col items-center px-4 pb-12 pt-12 text-center sm:pb-14 sm:pt-16">
-        <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-surface text-ink shadow-glow ring-1 ring-accent-silver/40">
-          <svg
-            viewBox="0 0 24 24"
-            className="h-7 w-7"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2.5}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m5 12 4 4 10-10" />
-          </svg>
-        </div>
-        <h1 className="text-2xl font-bold leading-tight text-ink sm:text-3xl">
-          {stats.total > 0
-            ? `感谢社区，已交付 ${stats.total} 个想法`
-            : "成就墙正在路上"}
-        </h1>
-        <p className="mt-3 max-w-2xl text-sm text-ink-subtle sm:text-base">
-          每一个完成的功能背后，都有用户的声音
-        </p>
-        {showStatsStrip ? <HeroStatsStrip stats={stats} /> : null}
-      </div>
-    </section>
-  );
-}
-
-/** 统计与标题同属一块 banner：无独立白卡片、无负 margin，避免与列表区「骑缝」截断感。 */
-function HeroStatsStrip({ stats }: { stats: DeliveredPageStats }) {
-  return (
-    <div
-      className="mt-8 w-full max-w-md sm:mt-10 sm:max-w-xl"
-      role="region"
-      aria-label="交付统计"
-    >
-      <div className="flex items-stretch justify-center divide-x divide-accent-violet/25 sm:divide-accent-violet/30">
-        <HeroStatCell label="已上线" value={stats.total.toString()} />
-        <HeroStatCell
-          label="总投票"
-          value={stats.totalVotes.toString()}
-        />
-        <HeroStatCell
-          label="最近交付"
-          value={
-            stats.lastDeliveredAt
-              ? formatRelativeTime(stats.lastDeliveredAt)
-              : "—"
-          }
-        />
-      </div>
-    </div>
-  );
-}
-
-function HeroStatCell({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex min-w-0 flex-1 flex-col items-center justify-center gap-1 px-3 py-1 text-center sm:px-5">
-      <span className="text-xs text-ink-muted">{label}</span>
-      <span className="text-xl font-semibold tabular-nums text-ink sm:text-2xl">
-        {value}
-      </span>
-    </div>
   );
 }
 

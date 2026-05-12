@@ -46,7 +46,7 @@ function makeLimiter(reqs: number, windowSec: number) {
   };
 }
 
-export const submitLimiter = makeLimiter(1, 60); // 同 IP 60s 内 1 次提交
+export const submitLimiter = makeLimiter(1, 3); // 同 IP 3s 内 1 次提交
 export const voteLimiter = makeLimiter(10, 60); // 同 IP 60s 内 10 次投票
 export const readLimiter = makeLimiter(20, 1); // 同 IP 1s 内 20 次读
 

@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils";
  *
  *   - backgroundSlot : 绝对定位、铺满 section 的背景层（光晕、渐变、纹理皆可）。
  *                      不传时使用默认银紫双 halo。
- *   - asideSlot      : 主内容右侧的副视觉区（人像、3D 物件、贴纸等）。
- *                      传入时切换为「全宽 2 栏 grid」，左栏文字内有内 max-width，
- *                      右栏从中线一直贯穿到 viewport 右边缘；不传时保持居中。
+ *   - asideSlot      : 叠在主内容之上的人像等；锚在「标题+副标题+搜索栏」
+ *                      相对容器的右边缘垂直中点（容器中心落在该点，可与文案重叠），
+ *                      不参与主文案 flex 排版；不传则无。
  *
  * 视觉只通过 props 注入，组件内部不持有任何品牌色硬编码。
  */
@@ -21,6 +21,7 @@ export function Hero({
   subtitle = "提交你的想法，与社区一起决定下一步",
   backgroundSlot,
   asideSlot,
+  extraSlot,
 }: {
   onSearch: (q: string) => void;
   initialQuery?: string;
@@ -28,6 +29,8 @@ export function Hero({
   subtitle?: ReactNode;
   backgroundSlot?: ReactNode;
   asideSlot?: ReactNode;
+  /** 搜索框下方额外区域（如已上线页统计条） */
+  extraSlot?: ReactNode;
 }) {
   const [v, setV] = useState(initialQuery || "");
 
@@ -41,44 +44,44 @@ export function Hero({
   return (
     <section
       data-embed-hide="true"
-      className="relative overflow-hidden border-b border-surface-muted bg-surface"
+      className="relative z-[1] overflow-x-hidden border-b border-surface-muted bg-surface"
     >
       {/* z-0：装饰层必须在内容之下；勿用负 z-index，否则会被 section 的 bg-surface 盖住 */}
       <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         {backgroundSlot ?? <DefaultHeroBackground hasAside={hasAside} />}
       </div>
 
-      {hasAside ? (
-        <div className="relative z-10 grid min-h-[420px] grid-cols-1 lg:min-h-[480px] lg:grid-cols-2">
-          <div className="flex flex-col justify-center px-6 py-12 sm:px-8 sm:py-16 lg:items-end lg:py-20 lg:pr-10 xl:pr-14">
-            <div className="w-full max-w-2xl">
-              <h1 className="text-balance text-3xl font-bold leading-tight text-ink sm:text-4xl lg:text-[44px] xl:text-5xl">
-                {title}
-              </h1>
-              <p className="mt-4 text-sm text-ink-subtle sm:text-base lg:text-lg">
-                {subtitle}
-              </p>
-              <div className="mt-8 w-full max-w-xl">
-                <SearchInput value={v} onChange={setV} />
-              </div>
-            </div>
-          </div>
-
-          <div className="relative h-72 sm:h-96 lg:h-auto">{asideSlot}</div>
-        </div>
-      ) : (
-        <div className="relative z-10 mx-auto flex min-h-[320px] max-w-3xl flex-col items-center justify-center px-3 py-12 text-center sm:min-h-[380px] sm:px-4 sm:py-20 lg:min-h-[440px]">
+      <div
+        className={cn(
+          "relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center px-3 py-10 text-center sm:px-4 sm:py-14 lg:py-14 xl:py-20",
+          hasAside
+            ? "min-h-[300px] sm:min-h-[340px] lg:min-h-[380px] xl:min-h-[480px]"
+            : "min-h-[320px] sm:min-h-[380px] lg:min-h-[440px]"
+        )}
+      >
+        <div className="relative w-full">
           <h1 className="text-balance text-2xl font-bold leading-tight text-ink sm:text-3xl lg:text-[44px]">
             {title}
           </h1>
           <p className="mt-3 text-sm text-ink-subtle sm:text-base lg:text-lg">
             {subtitle}
           </p>
-          <div className="mt-6 w-full max-w-xl sm:mt-7">
+          <div className="mx-auto mt-6 w-full max-w-xl sm:mt-7">
             <SearchInput value={v} onChange={setV} />
           </div>
+          {extraSlot ? (
+            <div className="mt-8 w-full sm:mt-10">{extraSlot}</div>
+          ) : null}
+          {asideSlot ? (
+            <div
+              className="pointer-events-none absolute right-0 top-1/2 z-[5] -translate-y-1/2 translate-x-1/2"
+              aria-hidden
+            >
+              {asideSlot}
+            </div>
+          ) : null}
         </div>
-      )}
+      </div>
     </section>
   );
 }

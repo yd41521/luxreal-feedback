@@ -1,16 +1,22 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
-import { HeroAtmosphere } from "@/components/HeroAtmosphere";
 import { ScrollSubmitFab } from "@/components/ScrollSubmitFab";
 import { Filters, type SortKey } from "@/components/Filters";
 import { ItemCard } from "@/components/ItemCard";
 import { SubmitDialog } from "@/components/SubmitDialog";
 import type { Category, FeedbackItem, Status } from "@/lib/types";
+
+const HeroShaderBackground = dynamic(
+  () =>
+    import("@/components/HeroShaderBackground").then((m) => m.HeroShaderBackground),
+  { ssr: false, loading: () => null }
+);
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -76,7 +82,7 @@ export default function HomeClient() {
       <Header current="home" onSubmitClick={() => setOpenSubmit(true)} />
       <Hero
         onSearch={handleSearch}
-        backgroundSlot={<HeroAtmosphere />}
+        backgroundSlot={<HeroShaderBackground preset="home" />}
       />
       {/* Hero 底部哨兵：滚出视口后出现右下角「提交想法」浮动按钮 */}
       <div
@@ -85,7 +91,7 @@ export default function HomeClient() {
         className="pointer-events-none h-px w-full shrink-0"
       />
 
-      <main className="mx-auto max-w-5xl px-4 pb-16 sm:px-6">
+      <main className="relative isolate z-[100] mx-auto max-w-5xl bg-transparent px-4 pb-16 sm:px-6">
         <Filters
           sort={sort}
           category={category}
