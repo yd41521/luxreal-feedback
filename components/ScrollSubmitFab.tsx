@@ -39,7 +39,8 @@ export function ScrollSubmitFab({
           }
           transition={fabTransition}
           className={cn(
-            "fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-40 -translate-x-1/2 sm:bottom-8",
+            // 需高于 HomeClient <main> 的 z-[100]（为压住全屏 Shader），否则加号会被列表卡片挡住
+            "fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-1/2 z-[110] -translate-x-1/2 sm:bottom-8",
             "max-sm:bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))]"
           )}
         >
